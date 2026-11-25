@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+         child.project.url.inherit.append.path="false">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.rdlinux</groupId>
-    <artifactId>flyway-gaussdb</artifactId>
-    <version>0.1.0</version>
-    <packaging>jar</packaging>
+    <artifactId>flyway-gaussdb-parent</artifactId>
+    <version>0.1.1</version>
+    <packaging>pom</packaging>
 
-    <name>Flyway GaussDB</name>
+    <name>Flyway GaussDB Parent</name>
     <description>华为 GaussDB 商业版的 Flyway 数据库适配器</description>
     <url>https://github.com/davinyue/flyway-gaussdb</url>
     <licenses>
@@ -24,11 +25,18 @@
             <email>davinyue@outlook.com</email>
         </developer>
     </developers>
-    <scm>
+    <scm child.scm.connection.inherit.append.path="false"
+         child.scm.developerConnection.inherit.append.path="false"
+         child.scm.url.inherit.append.path="false">
         <connection>scm:git:https://github.com/davinyue/flyway-gaussdb.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/davinyue/flyway-gaussdb.git</developerConnection>
         <url>https://github.com/davinyue/flyway-gaussdb</url>
     </scm>
+
+    <modules>
+        <module>flyway-gaussdb</module>
+        <module>flyway-gaussdb-spring-boot-starter</module>
+    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -37,12 +45,17 @@
         <flyway.version>8.5.13</flyway.version>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-core</artifactId>
+                <version>${flyway.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-            <version>${flyway.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -63,7 +76,7 @@
                 <directory>src/main/resources</directory>
             </resource>
             <resource>
-                <directory>${project.basedir}</directory>
+                <directory>${project.basedir}/..</directory>
                 <targetPath>META-INF</targetPath>
                 <includes>
                     <include>LICENSE</include>
